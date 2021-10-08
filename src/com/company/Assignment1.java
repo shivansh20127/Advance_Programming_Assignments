@@ -18,7 +18,8 @@ class Slot
         System.out.print("Slot added by Hospital "+ID);
         System.out.print(" for Day: "+slot.day_number);
         System.out.print(" , Available Quantity: "+quantity);
-        System.out.println(" of Vaccine"+ this.vaccine_name.name);
+        System.out.print(" of Vaccine"+ this.vaccine_name.name);
+        System.out.println();
     }
 }
 class Hospital
@@ -43,6 +44,16 @@ class Hospital
     void addSlot(Slot slot)
     {
         slots.add(slot);
+    }
+    void display_slots()
+    {
+        for(int j=0;j<slots.size();j++)
+        {
+            System.out.print("Day: "+slots.get(j).day_number);
+            System.out.print(" Vaccine: "+slots.get(j).vaccine_name.name);
+            System.out.print(" Available Qty: "+slots.get(j).quantity);
+            System.out.println();
+        }
     }
 }
 class Citizen
@@ -226,6 +237,12 @@ public class Assignment1
                     hospitalbyid.get(hosid).addSlot(new_slot);
                     new_slot.print_details(new_slot,hosid);
                 }
+            }
+            else if(choice==6)
+            {
+                System.out.print("Enter Hospital Id: ");
+                int idds=sc.nextInt();
+                hospitalbyid.get(idds).display_slots();
             }
             else if(choice==7)
             {
