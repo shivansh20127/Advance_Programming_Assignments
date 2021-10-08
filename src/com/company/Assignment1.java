@@ -55,6 +55,16 @@ class Hospital
             System.out.println();
         }
     }
+    void display_slots_for_booking()
+    {
+        for(int j=0;j<slots.size();j++)
+        {
+            System.out.print(j+" -> Day: "+slots.get(j).day_number);
+            System.out.print(" Available Qty: "+slots.get(j).quantity);
+            System.out.print(" Vaccine: "+slots.get(j).vaccine_name.name);
+            System.out.println();
+        }
+    }
 }
 class Citizen
 {
@@ -142,7 +152,7 @@ public class Assignment1
         ArrayList<Hospital> hospitalArrayList=new ArrayList<>();
         HashMap<String,Vaccine> vaccine_hs=new HashMap<>();           //List of Vaccines -> mapped from vaccine name to Vaccine
         HashMap<String,Hospital> hospitalbyname=new HashMap<>();        //Filter Hospital by name
-        HashMap<Integer,Hospital> hospitalbypincode=new HashMap<>();    //Filter Hospital by PinCode
+        //HashMap<Integer,Hospital> hospitalbypincode=new HashMap<>();    //Filter Hospital by PinCode
         HashMap<Integer,Hospital> hospitalbyid=new HashMap<>();
         HashMap<String,Citizen> list_of_citizen=new HashMap<>();        //mapped
         int Hid=(int)1e6;                                               //Random ID assigned to Hospital
@@ -194,7 +204,6 @@ public class Assignment1
                 Hospital new_hospital=new Hospital(name,pincode,ID);
                 hospitalArrayList.add(new_hospital);
                 hospitalbyname.put(name,new_hospital);
-                hospitalbypincode.put(pincode,new_hospital);
                 hospitalbyid.put(ID,new_hospital);
                 new_hospital.display_details();
             }
@@ -236,6 +245,56 @@ public class Assignment1
                     Slot new_slot=new Slot(day_number,quantity,vaccine_hs.get(vaccines.get(slot_vax)));
                     hospitalbyid.get(hosid).addSlot(new_slot);
                     new_slot.print_details(new_slot,hosid);
+                }
+            }
+            else if(choice==5)
+            {
+                System.out.print("Enter patient Unique ID: ");
+                String booking_id=sc.next();
+                if(list_of_citizen.containsKey(booking_id))
+                {
+                    System.out.println("1. Search by Area\n2. Search by Vaccine\n3. Exit");
+                    System.out.print("Enter option: ");
+                    int booking_choice=sc.nextInt();
+                    if(booking_choice==1)
+                    {
+                        System.out.print("Enter PinCode: ");
+                        int booking_pincode=sc.nextInt();
+                        for(int loop=0;loop<hospitalArrayList.size();loop++)
+                        {
+                            Hospital temp=hospitalArrayList.get(loop);
+                            if(temp.pincode==booking_pincode)
+                            {
+                                System.out.println(temp.id+" "+temp.name);
+                            }
+                        }
+                        System.out.print("Enter hospital id: ");
+                        int booking_hid=sc.nextInt();
+                        Hospital temp=hospitalbyid.get(booking_hid);
+                        temp.display_slots_for_booking();
+                        System.out.print("Choose Slot: ");
+                        int booking_slot=sc.nextInt();
+                        if(booking_slot<temp.slots.size())
+                        {
+
+                        }
+                        else
+                        {
+                            System.out.println("Invalid Option");
+                        }
+                    }
+                    else if(booking_choice==2)
+                    {
+
+                    }
+                    else if(booking_choice==3)
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    System.out.println("Patient is not Registered for Slot Booking");
                 }
             }
             else if(choice==6)
