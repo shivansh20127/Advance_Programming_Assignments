@@ -54,6 +54,7 @@ class Citizen
     String status;
     int nextduedate;
     int previousdate;
+    Vaccine vax_status;
     public Citizen(String name,int age,String uid)
     {
         this.name=name;
@@ -82,6 +83,10 @@ class Citizen
     {
         if(curr.number_of_doses==this.dose_count) { status="FULLY VACCINATED"; }
         else { status = "PARTIALLY VACCINATED"; }
+    }
+    void set_vax_status(Vaccine vax)
+    {
+        this.vax_status=vax;
     }
 }
 class Vaccine
@@ -129,7 +134,6 @@ public class Assignment1
         HashMap<Integer,Hospital> hospitalbypincode=new HashMap<>();    //Filter Hospital by PinCode
         HashMap<Integer,Hospital> hospitalbyid=new HashMap<>();
         HashMap<String,Citizen> list_of_citizen=new HashMap<>();        //mapped
-        HashMap<Citizen,Vaccine> vax_to_citizen=new HashMap<>();
         int Hid=(int)1e6;                                               //Random ID assigned to Hospital
         while(true)
         {
@@ -228,7 +232,7 @@ public class Assignment1
                 String curr_id=sc.next();
                 Citizen temp=list_of_citizen.get(curr_id);
                 System.out.println(temp.status);
-                System.out.println("Vaccine Given: "+vax_to_citizen.get(temp).name);
+                System.out.println("Vaccine Given: "+temp.vax_status.name);
                 System.out.println("Number of Doses given: "+temp.dose_count);
                 if((temp.status).equals("FULLY VACCINATED"))
                     System.out.println("You are Fully Vaccinated. No Next Due Date Available");
