@@ -1,5 +1,4 @@
 package com.company;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -54,6 +53,7 @@ class Citizen
     int dose_count;
     String status;
     int nextduedate;
+    int previousdate;
     public Citizen(String name,int age,String uid)
     {
         this.name=name;
@@ -62,7 +62,7 @@ class Citizen
         this.dose_count=0;
         this.status="REGISTERED";
     }
-    void set_date(int date)
+    void update_newdate(int date)
     {
         this.nextduedate=date;
     }
@@ -77,6 +77,7 @@ class Citizen
     {
         this.dose_count+=1;
     }
+    void update_lastdose(int date) { this.previousdate=date; }
     void set_status(Vaccine curr)
     {
         if(curr.number_of_doses==this.dose_count) { status="FULLY VACCINATED"; }
@@ -127,7 +128,8 @@ public class Assignment1
         HashMap<String,Hospital> hospitalbyname=new HashMap<>();        //Filter Hospital by name
         HashMap<Integer,Hospital> hospitalbypincode=new HashMap<>();    //Filter Hospital by PinCode
         HashMap<Integer,Hospital> hospitalbyid=new HashMap<>();
-        HashMap<String,Citizen> list_of_citizen=new HashMap<>();
+        HashMap<String,Citizen> list_of_citizen=new HashMap<>();        //mapped
+        HashMap<Citizen,Vaccine> vax_to_citizen=new HashMap<>();
         int Hid=(int)1e6;                                               //Random ID assigned to Hospital
         while(true)
         {
@@ -220,6 +222,18 @@ public class Assignment1
                     hospitalbyid.get(hosid).addSlot(new_slot);
                     new_slot.print_details(new_slot,hosid);
                 }
+            }
+            else if(choice==7)
+            {
+                String curr_id=sc.next();
+                Citizen temp=list_of_citizen.get(curr_id);
+                System.out.println(temp.status);
+                System.out.println("Vaccine Given: "+vax_to_citizen.get(temp).name);
+                System.out.println("Number of Doses given: "+temp.dose_count);
+                if((temp.status).equals("FULLY VACCINATED"))
+                    System.out.println("You are Fully Vaccinated. No Next Due Date Available");
+                else
+                    System.out.println("Next Dose due date: "+temp.nextduedate);
             }
             else if(choice==8)
             {
