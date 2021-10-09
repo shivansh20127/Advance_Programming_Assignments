@@ -388,12 +388,19 @@ public class Assignment1
                 String curr_id=sc.next();
                 Citizen temp=list_of_citizen.get(curr_id);
                 System.out.println(temp.status);
-                System.out.println("Vaccine Given: "+temp.vax_status.name);
-                System.out.println("Number of Doses given: "+temp.dose_count);
-                if((temp.status).equals("FULLY VACCINATED"))
-                    System.out.println("You are Fully Vaccinated. No Next Due Date Available");
+                if(temp.status.equals("REGISTERED")==false)
+                {
+                    System.out.println("Vaccine Given: " + temp.vax_status.name);
+                    System.out.println("Number of Doses given: " + temp.dose_count);
+                    if ((temp.status).equals("FULLY VACCINATED"))
+                        System.out.println("You are Fully Vaccinated. No Next Due Date Available");
+                    else
+                        System.out.println("Next Dose due date: " + temp.nextduedate);
+                }
                 else
-                    System.out.println("Next Dose due date: "+temp.nextduedate);
+                {
+                    System.out.println("You are just registered and haven't booked any slot");
+                }
             }
             else if(choice==8)
             {
