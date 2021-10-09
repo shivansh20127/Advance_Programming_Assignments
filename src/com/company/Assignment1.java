@@ -563,7 +563,7 @@ public class Assignment1
             }
             else if(choice==8)
             {
-                System.out.println("Stay home, stay safe!");
+                System.out.println("Stay home,stay safe!");
                 System.out.println("{End of Test Case}");
                 System.exit(0);
             }
