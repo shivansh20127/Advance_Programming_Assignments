@@ -210,10 +210,10 @@ public class Assignment1
         System.out.println("CoWin Portal initialized....");
         ArrayList<String> vaccines=new ArrayList<>();
         ArrayList<Hospital> hospitalArrayList=new ArrayList<>();
-        HashMap<String,Vaccine> vaccine_hs=new HashMap<>();           //List of Vaccines -> mapped from vaccine name to Vaccine
+        HashMap<String,Vaccine> vaccine_hs=new HashMap<>();
         HashMap<Integer,Hospital> hospitalbyid=new HashMap<>();
-        HashMap<String,Citizen> list_of_citizen=new HashMap<>();        //mapped from UID to citizen
-        int Hid=(int)1e5;                                               //Random ID assigned to Hospital
+        HashMap<String,Citizen> list_of_citizen=new HashMap<>();
+        int Hid=(int)1e5;
         while(true)
         {
             menu();
@@ -444,7 +444,7 @@ public class Assignment1
                                         max_day=Math.max(p.getss(),max_day);
                                     }
                                     Citizen curr_cit=list_of_citizen.get(cust_booking_id);
-                                    if(curr_cit.nextduedate > max_day)    //discarding on basis of slots availability
+                                    if(curr_cit.nextduedate > max_day)
                                     {
                                         System.out.println("No slots available");
                                         continue;
@@ -459,7 +459,7 @@ public class Assignment1
                                             day_he_choose=p.getss();
                                         }
                                     }
-                                    if(day_he_choose==-1)    //discarding on basis of invalid option
+                                    if(day_he_choose==-1)
                                     {
                                         System.out.println("Invalid Option");
                                         continue;
