@@ -29,14 +29,12 @@ class Slot
     int day_number;
     int quantity;
     Vaccine vaccine_name;
-    public Slot(int x,int y,Vaccine vax)
-    {
+    public Slot(int x,int y,Vaccine vax) {
         this.day_number=x;
         this.quantity=y;
         this.vaccine_name=vax;
     }
-    void print_details(Slot slot,int ID)
-    {
+    void print_details(Slot slot,int ID) {
         System.out.print("Slot added by Hospital "+ID);
         System.out.print(" for Day: "+slot.day_number);
         System.out.print(" , Available Quantity: "+quantity);
@@ -56,8 +54,7 @@ class Hospital
         this.pincode=pincode;
         this.id=ID;
     }
-    void display_details()
-    {
+    void display_details() {
         System.out.print("Hospital Name: "+this.name);
         System.out.print(" , PinCode: "+this.pincode);
         System.out.print(" , Unique ID: "+this.id);
@@ -67,8 +64,7 @@ class Hospital
     {
         slots.add(slot);
     }
-    void display_slots()
-    {
+    void display_slots() {
         if(this.slots.size()==0)
         {
             System.out.println("No slots available");
@@ -82,8 +78,7 @@ class Hospital
             System.out.println();
         }
     }
-    ArrayList<Integer> display_slots_for_booking()
-    {
+    ArrayList<Integer> display_slots_for_booking() {
         ArrayList<Integer> day_which_he_can_book=new ArrayList<>();
         for(int j=0;j<slots.size();j++)
         {
@@ -95,21 +90,18 @@ class Hospital
         }
         return day_which_he_can_book;
     }
-    Slot change_slot(int pos)
-    {
+    Slot change_slot(int pos) {
         slots.get(pos).quantity-=1;
         return slots.get(pos);
     }
-    boolean check_vaccine_slot(String required)
-    {
+    boolean check_vaccine_slot(String required) {
         for(Slot s: slots)
         {
             if(s.vaccine_name.name.equals(required)) return true;
         }
         return false;
     }
-    ArrayList<Pair> display_slot_by_vaccine_name(String input)
-    {
+    ArrayList<Pair> display_slot_by_vaccine_name(String input) {
         ArrayList<Pair> day_which_he_can_book=new ArrayList<>();
         for(int j=0;j<slots.size();j++)
         {
@@ -128,9 +120,9 @@ class Hospital
 }
 class Citizen
 {
-    String name;
-    int age;
-    String UID;
+    private String name;
+    private int age;
+    private String UID;
     int dose_count;
     String status;
     int nextduedate;
@@ -149,8 +141,7 @@ class Citizen
     {
         this.nextduedate=date;
     }
-    void display_details()
-    {
+    void display_details() {
         System.out.print("Citizen Name: "+this.name);
         System.out.print(" , Age: "+this.age);
         System.out.print(" , Unique ID: "+this.UID);
@@ -160,8 +151,7 @@ class Citizen
     {
         this.dose_count+=1;
     }
-    void set_status(Vaccine curr)
-    {
+    void set_status(Vaccine curr) {
         if(curr.number_of_doses==this.dose_count) { status="FULLY VACCINATED"; }
         else { status = "PARTIALLY VACCINATED"; }
     }
@@ -181,8 +171,7 @@ class Vaccine
         this.number_of_doses=number_of_doses;
         this.gap=gap;
     }
-    void display_details()
-    {
+    void display_details() {
         System.out.print("Vaccine Name: "+this.name);
         System.out.print(" , Number of Doses: "+this.number_of_doses);
         System.out.print(" , Gap Between Doses: "+this.gap);
