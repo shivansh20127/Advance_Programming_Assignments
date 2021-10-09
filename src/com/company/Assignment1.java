@@ -211,8 +211,6 @@ public class Assignment1
         ArrayList<String> vaccines=new ArrayList<>();
         ArrayList<Hospital> hospitalArrayList=new ArrayList<>();
         HashMap<String,Vaccine> vaccine_hs=new HashMap<>();           //List of Vaccines -> mapped from vaccine name to Vaccine
-        HashMap<String,Hospital> hospitalbyname=new HashMap<>();        //Filter Hospital by name
-        //HashMap<Integer,Hospital> hospitalbypincode=new HashMap<>();    //Filter Hospital by PinCode
         HashMap<Integer,Hospital> hospitalbyid=new HashMap<>();
         HashMap<String,Citizen> list_of_citizen=new HashMap<>();        //mapped from UID to citizen
         int Hid=(int)1e5;                                               //Random ID assigned to Hospital
@@ -264,7 +262,6 @@ public class Assignment1
                 System.out.println("Allocated Hospital ID is "+ID);
                 Hospital new_hospital=new Hospital(name,pincode,ID);
                 hospitalArrayList.add(new_hospital);
-                hospitalbyname.put(name,new_hospital);
                 hospitalbyid.put(ID,new_hospital);
                 new_hospital.display_details();
             }
