@@ -3,6 +3,28 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+class Pair
+{
+    int f;
+    int s;
+    public Pair(int x,int y)
+    {
+        this.f=x;
+        this.s=y;
+    }
+    void setff(int x) {
+        this.f=x;
+    }
+    void setss(int y) {
+        this.s=y;
+    }
+    int getff() {
+        return this.f;
+    }
+    int getss() {
+        return this.s;
+    }
+}
 class Slot
 {
     int day_number;
@@ -55,9 +77,9 @@ class Hospital
         }
         for(int j=0;j<slots.size();j++)
         {
-            System.out.print("Day: "+slots.get(j).day_number);
-            System.out.print(" Vaccine: "+slots.get(j).vaccine_name.name);
-            System.out.print(" Available Qty: "+slots.get(j).quantity);
+            System.out.print("Day: " + slots.get(j).day_number);
+            System.out.print(" Vaccine: " + slots.get(j).vaccine_name.name);
+            System.out.print(" Available Qty: " + slots.get(j).quantity);
             System.out.println();
         }
     }
@@ -66,9 +88,9 @@ class Hospital
         ArrayList<Integer> day_which_he_can_book=new ArrayList<>();
         for(int j=0;j<slots.size();j++)
         {
-            System.out.print(j+" -> Day: "+slots.get(j).day_number);
-            System.out.print(" Available Qty: "+slots.get(j).quantity);
-            System.out.print(" Vaccine: "+slots.get(j).vaccine_name.name);
+            System.out.print(j + " -> Day: " + slots.get(j).day_number);
+            System.out.print(" Available Qty: " + slots.get(j).quantity);
+            System.out.print(" Vaccine: " + slots.get(j).vaccine_name.name);
             System.out.println();
             day_which_he_can_book.add(slots.get(j).day_number);
         }
@@ -86,6 +108,23 @@ class Hospital
             if(s.vaccine_name.name.equals(required)) return true;
         }
         return false;
+    }
+    ArrayList<Pair> display_slot_by_vaccine_name(String input)
+    {
+        ArrayList<Pair> day_which_he_can_book=new ArrayList<>();
+        for(int j=0;j<slots.size();j++)
+        {
+            if(slots.get(j).vaccine_name.name.equals(input))
+            {
+                System.out.print(j + " -> Day: " + slots.get(j).day_number);
+                System.out.print(" Available Qty: " + slots.get(j).quantity);
+                System.out.print(" Vaccine: " + slots.get(j).vaccine_name.name);
+                System.out.println();
+                Pair p=new Pair(j,slots.get(j).day_number);
+                day_which_he_can_book.add(p);
+            }
+        }
+        return day_which_he_can_book;
     }
 }
 class Citizen
@@ -177,7 +216,7 @@ public class Assignment1
         //HashMap<Integer,Hospital> hospitalbypincode=new HashMap<>();    //Filter Hospital by PinCode
         HashMap<Integer,Hospital> hospitalbyid=new HashMap<>();
         HashMap<String,Citizen> list_of_citizen=new HashMap<>();        //mapped from UID to citizen
-        int Hid=(int)1e6;                                               //Random ID assigned to Hospital
+        int Hid=(int)1e5;                                               //Random ID assigned to Hospital
         while(true)
         {
             menu();
@@ -222,7 +261,7 @@ public class Assignment1
                 String name=sc.nextLine();
                 System.out.print("PinCode: ");
                 int pincode=sc.nextInt();
-                int ID=Hid++;
+                int ID=++Hid;
                 Hospital new_hospital=new Hospital(name,pincode,ID);
                 hospitalArrayList.add(new_hospital);
                 hospitalbyname.put(name,new_hospital);
@@ -401,7 +440,69 @@ public class Assignment1
                                 if(available_hospital.contains(book_ho_id))
                                 {
                                     Hospital hos_chosen=hospitalbyid.get(book_ho_id);
-
+                                    ArrayList<Pair> ind_to_day=hos_chosen.display_slot_by_vaccine_name(vaccine_chosen);
+                                    int max_day=ind_to_day.get(0).getss();
+                                    for(Pair p : ind_to_day)
+                                    {
+                                        max_day=Math.max(p.getss(),max_day);
+                                    }
+                                    Citizen curr_cit=list_of_citizen.get(cust_booking_id);
+                                    if(curr_cit.nextduedate > max_day)    //discarding on basis of slots availability
+                                    {
+                                        System.out.println("No slots available");
+                                        continue;
+                                    }
+                                    System.out.print("Choose Slot: ");
+                                    int booking_slot=sc.nextInt();
+                                    int day_he_choose=-1;
+                                    for(Pair p : ind_to_day)
+                                    {
+                                        if(p.getff()==booking_slot)
+                                        {
+                                            day_he_choose=p.getss();
+                                        }
+                                    }
+                                    if(day_he_choose==-1)    //discarding on basis of invalid option
+                                    {
+                                        System.out.println("Invalid Option");
+                                        continue;
+                                    }
+                                    if(curr_cit.nextduedate > day_he_choose)
+                                    {
+                                        System.out.println("No slots available");
+                                        continue;
+                                    }
+                                    if(hos_chosen.slots.get(booking_slot).quantity==0)
+                                    {
+                                        System.out.println("No slots available");
+                                    }
+                                    else
+                                    {
+                                        Slot booked_slot=hos_chosen.change_slot(booking_slot);
+                                        if(curr_cit.status.equals("REGISTERED"))
+                                        {
+                                            curr_cit.update_dose_count();
+                                            curr_cit.set_status(booked_slot.vaccine_name);
+                                            curr_cit.set_vax_status(booked_slot.vaccine_name);
+                                            int day_to_update = day_he_choose + booked_slot.vaccine_name.gap;
+                                            curr_cit.update_newdate(day_to_update);
+                                        }
+                                        else if(curr_cit.status.equals("PARTIALLY VACCINATED"))
+                                        {
+                                            if(booked_slot.vaccine_name.name.equals(curr_cit.vax_status.name))
+                                            {
+                                                curr_cit.update_dose_count();
+                                                curr_cit.set_status(booked_slot.vaccine_name);
+                                                curr_cit.set_vax_status(booked_slot.vaccine_name);
+                                                int day_to_update = day_he_choose + booked_slot.vaccine_name.gap;
+                                                curr_cit.update_newdate(day_to_update);
+                                            }
+                                            else
+                                            {
+                                                System.out.println("Vaccine Mixing is not allowed");
+                                            }
+                                        }
+                                    }
                                 }
                                 else
                                 {
