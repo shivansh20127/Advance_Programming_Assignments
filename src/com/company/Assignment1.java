@@ -280,6 +280,10 @@ public class Assignment1
                     System.out.println("Only above 18 are allowed");
                 }
                 else if(uid.length()!=12) System.out.println("Invalid Unique Id");
+                else if(list_of_citizen.containsKey(uid))
+                {
+                    System.out.println("ID already Exists.");
+                }
                 else list_of_citizen.put(uid,new_citizen);
             }
             else if(choice==4)
