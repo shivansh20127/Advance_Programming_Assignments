@@ -1,4 +1,5 @@
 package com.company;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -55,15 +56,23 @@ class Hospital
             System.out.println();
         }
     }
-    void display_slots_for_booking()
+    ArrayList<Integer> display_slots_for_booking()
     {
+        ArrayList<Integer> day_which_he_can_book=new ArrayList<>();
         for(int j=0;j<slots.size();j++)
         {
             System.out.print(j+" -> Day: "+slots.get(j).day_number);
             System.out.print(" Available Qty: "+slots.get(j).quantity);
             System.out.print(" Vaccine: "+slots.get(j).vaccine_name.name);
             System.out.println();
+            day_which_he_can_book.add(slots.get(j).day_number);
         }
+        return day_which_he_can_book;
+    }
+    Slot change_slot(int pos)
+    {
+        slots.get(pos).quantity-=1;
+        return slots.get(pos);
     }
 }
 class Citizen
@@ -74,7 +83,6 @@ class Citizen
     int dose_count;
     String status;
     int nextduedate;
-    int previousdate;
     Vaccine vax_status;
     public Citizen(String name,int age,String uid)
     {
@@ -83,6 +91,8 @@ class Citizen
         this.UID=uid;
         this.dose_count=0;
         this.status="REGISTERED";
+        this.nextduedate=1;
+        vax_status=null;
     }
     void update_newdate(int date)
     {
@@ -99,7 +109,6 @@ class Citizen
     {
         this.dose_count+=1;
     }
-    void update_lastdose(int date) { this.previousdate=date; }
     void set_status(Vaccine curr)
     {
         if(curr.number_of_doses==this.dose_count) { status="FULLY VACCINATED"; }
@@ -250,9 +259,14 @@ public class Assignment1
             else if(choice==5)
             {
                 System.out.print("Enter patient Unique ID: ");
-                String booking_id=sc.next();
-                if(list_of_citizen.containsKey(booking_id))
+                String cust_booking_id=sc.next();
+                if(list_of_citizen.containsKey(cust_booking_id))
                 {
+                    if(list_of_citizen.get(cust_booking_id).status.equals("FULLY VACCINATED"))
+                    {
+                        System.out.println("You are Fully Vaccinated");
+                        continue;
+                    }
                     System.out.println("1. Search by Area\n2. Search by Vaccine\n3. Exit");
                     System.out.print("Enter option: ");
                     int booking_choice=sc.nextInt();
@@ -260,27 +274,70 @@ public class Assignment1
                     {
                         System.out.print("Enter PinCode: ");
                         int booking_pincode=sc.nextInt();
+                        boolean find=false;
                         for(int loop=0;loop<hospitalArrayList.size();loop++)
                         {
                             Hospital temp=hospitalArrayList.get(loop);
                             if(temp.pincode==booking_pincode)
                             {
                                 System.out.println(temp.id+" "+temp.name);
+                                find=true;
                             }
+                        }
+                        if(find==false)
+                        {
+                            System.out.println("No Hospital found");
+                            continue;
                         }
                         System.out.print("Enter hospital id: ");
                         int booking_hid=sc.nextInt();
                         Hospital temp=hospitalbyid.get(booking_hid);
-                        temp.display_slots_for_booking();
+                        if(temp.slots.size()==0)
+                        {
+                            System.out.println("No slots available");
+                            continue;
+                        }
+                        Citizen curr_cit=list_of_citizen.get(cust_booking_id);
+                        ArrayList<Integer> dwhcb=temp.display_slots_for_booking();
+                        int max_day=dwhcb.get(0);
+                        for(Integer x:dwhcb)
+                        {
+                            max_day=Math.max(x,max_day);
+                        }
+                        if(curr_cit.nextduedate>max_day)
+                        {
+                            System.out.println("No slots available");
+                            continue;
+                        }
                         System.out.print("Choose Slot: ");
                         int booking_slot=sc.nextInt();
-                        if(booking_slot<temp.slots.size())
+                        int day_he_choose=dwhcb.get(booking_slot);
+                        if(day_he_choose>= curr_cit.nextduedate)
                         {
-
+                            if (booking_slot < dwhcb.size())
+                            {
+                                if(temp.slots.get(booking_slot).quantity==0)
+                                {
+                                    System.out.println("No slots available");
+                                }
+                                else
+                                {
+                                    Slot booked_slot=temp.change_slot(booking_slot);
+                                    curr_cit.update_dose_count();
+                                    curr_cit.set_status(booked_slot.vaccine_name);
+                                    curr_cit.set_vax_status(booked_slot.vaccine_name);
+                                    int day_to_update=day_he_choose+ booked_slot.vaccine_name.gap;
+                                    curr_cit.update_newdate(day_to_update);
+                                }
+                            }
+                            else
+                            {
+                                System.out.println("Invalid Option");
+                            }
                         }
                         else
                         {
-                            System.out.println("Invalid Option");
+                            System.out.println("No slots available");
                         }
                     }
                     else if(booking_choice==2)
