@@ -48,6 +48,11 @@ class Hospital
     }
     void display_slots()
     {
+        if(this.slots.size()==0)
+        {
+            System.out.println("No slots available");
+            return;
+        }
         for(int j=0;j<slots.size();j++)
         {
             System.out.print("Day: "+slots.get(j).day_number);
@@ -297,14 +302,14 @@ public class Assignment1
                             System.out.println("No slots available");
                             continue;
                         }
-                        Citizen curr_cit=list_of_citizen.get(cust_booking_id);
                         ArrayList<Integer> dwhcb=temp.display_slots_for_booking();
                         int max_day=dwhcb.get(0);
                         for(Integer x:dwhcb)
                         {
                             max_day=Math.max(x,max_day);
                         }
-                        if(curr_cit.nextduedate>max_day)
+                        Citizen curr_cit=list_of_citizen.get(cust_booking_id);
+                        if(curr_cit.nextduedate > max_day)
                         {
                             System.out.println("No slots available");
                             continue;
@@ -323,11 +328,29 @@ public class Assignment1
                                 else
                                 {
                                     Slot booked_slot=temp.change_slot(booking_slot);
-                                    curr_cit.update_dose_count();
-                                    curr_cit.set_status(booked_slot.vaccine_name);
-                                    curr_cit.set_vax_status(booked_slot.vaccine_name);
-                                    int day_to_update=day_he_choose+ booked_slot.vaccine_name.gap;
-                                    curr_cit.update_newdate(day_to_update);
+                                    if(curr_cit.status.equals("REGISTERED"))
+                                    {
+                                        curr_cit.update_dose_count();
+                                        curr_cit.set_status(booked_slot.vaccine_name);
+                                        curr_cit.set_vax_status(booked_slot.vaccine_name);
+                                        int day_to_update = day_he_choose + booked_slot.vaccine_name.gap;
+                                        curr_cit.update_newdate(day_to_update);
+                                    }
+                                    else if(curr_cit.status.equals("PARTIALLY VACCINATED"))
+                                    {
+                                        if(booked_slot.vaccine_name.name.equals(curr_cit.vax_status.name))
+                                        {
+                                            curr_cit.update_dose_count();
+                                            curr_cit.set_status(booked_slot.vaccine_name);
+                                            curr_cit.set_vax_status(booked_slot.vaccine_name);
+                                            int day_to_update = day_he_choose + booked_slot.vaccine_name.gap;
+                                            curr_cit.update_newdate(day_to_update);
+                                        }
+                                        else
+                                        {
+                                            System.out.println("Vaccine Mixing is not allowed");
+                                        }
+                                    }
                                 }
                             }
                             else
