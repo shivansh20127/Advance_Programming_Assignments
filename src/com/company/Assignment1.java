@@ -400,6 +400,7 @@ public class Assignment1
                                 int book_ho_id=sc.nextInt();
                                 if(available_hospital.contains(book_ho_id))
                                 {
+                                    Hospital hos_chosen=hospitalbyid.get(book_ho_id);
 
                                 }
                                 else
