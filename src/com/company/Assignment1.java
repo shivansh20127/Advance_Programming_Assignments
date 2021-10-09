@@ -224,7 +224,7 @@ public class Assignment1
             if(choice==1)
             {
                 System.out.print("Vaccine Name: ");
-                String name = sc.nextLine();
+                String name = sc.next();
                 System.out.print("Number of Doses: ");
                 int number_of_doses = sc.nextInt();
                 int gap = 0;
@@ -258,10 +258,11 @@ public class Assignment1
             else if(choice==2)
             {
                 System.out.print("Hospital Name: ");
-                String name=sc.nextLine();
+                String name=sc.next();
                 System.out.print("PinCode: ");
                 int pincode=sc.nextInt();
                 int ID=++Hid;
+                System.out.println("Allocated Hospital ID is "+ID);
                 Hospital new_hospital=new Hospital(name,pincode,ID);
                 hospitalArrayList.add(new_hospital);
                 hospitalbyname.put(name,new_hospital);
@@ -271,7 +272,7 @@ public class Assignment1
             else if(choice==3)
             {
                 System.out.print("Citizen Name: ");
-                String name=sc.nextLine();
+                String name=sc.next();
                 System.out.print("Age: ");
                 int age=sc.nextInt();
                 System.out.print("Unique ID: ");
@@ -536,7 +537,8 @@ public class Assignment1
             {
                 System.out.print("Enter Hospital Id: ");
                 int idds=sc.nextInt();
-                if(hospitalArrayList.contains(idds)) {
+                if(hospitalbyid.containsKey(idds))
+                {
                     hospitalbyid.get(idds).display_slots();
                 }
                 else {
@@ -553,7 +555,7 @@ public class Assignment1
                     System.out.println("Vaccine Given: " + temp.vax_status.name);
                     System.out.println("Number of Doses given: " + temp.dose_count);
                     if ((temp.status).equals("FULLY VACCINATED"))
-                        System.out.println("You are Fully Vaccinated. No Next Due Date Available");
+                        continue;
                     else
                         System.out.println("Next Dose due date: " + temp.nextduedate);
                 }
