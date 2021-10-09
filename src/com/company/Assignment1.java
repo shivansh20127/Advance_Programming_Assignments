@@ -79,6 +79,14 @@ class Hospital
         slots.get(pos).quantity-=1;
         return slots.get(pos);
     }
+    boolean check_vaccine_slot(String required)
+    {
+        for(Slot s: slots)
+        {
+            if(s.vaccine_name.name.equals(required)) return true;
+        }
+        return false;
+    }
 }
 class Citizen
 {
@@ -168,7 +176,7 @@ public class Assignment1
         HashMap<String,Hospital> hospitalbyname=new HashMap<>();        //Filter Hospital by name
         //HashMap<Integer,Hospital> hospitalbypincode=new HashMap<>();    //Filter Hospital by PinCode
         HashMap<Integer,Hospital> hospitalbyid=new HashMap<>();
-        HashMap<String,Citizen> list_of_citizen=new HashMap<>();        //mapped
+        HashMap<String,Citizen> list_of_citizen=new HashMap<>();        //mapped from UID to citizen
         int Hid=(int)1e6;                                               //Random ID assigned to Hospital
         while(true)
         {
@@ -365,7 +373,52 @@ public class Assignment1
                     }
                     else if(booking_choice==2)
                     {
+                        System.out.print("Enter Vaccine name: ");
+                        String vaccine_chosen=sc.next();
+                        if(vaccines.contains(vaccine_chosen))
+                        {
+                            Citizen temp=list_of_citizen.get(cust_booking_id);
+                            if(temp.vax_status==null || temp.vax_status.name.equals(vaccine_chosen))
+                            {
+                                ArrayList<Integer> available_hospital=new ArrayList<>();
+                                boolean flag=false;
+                                for(Hospital it : hospitalArrayList)
+                                {
+                                    if(it.check_vaccine_slot(vaccine_chosen))
+                                    {
+                                        flag=true;
+                                        available_hospital.add(it.id);
+                                        System.out.println(it.id+" "+it.name);
+                                    }
+                                }
+                                if(!flag)
+                                {
+                                    System.out.println("No slots available");
+                                    continue;
+                                }
+                                System.out.println("Enter hospital id: ");
+                                int book_ho_id=sc.nextInt();
+                                if(available_hospital.contains(book_ho_id))
+                                {
 
+                                }
+                                else
+                                {
+                                    System.out.println("Invalid Hospital Id input");
+                                    continue;
+                                }
+                            }
+                            else
+                            {
+                                System.out.println("Vaccine mixing is not allowed");
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            System.out.println("Invalid Vaccine Input");
+                            continue;
+                        }
                     }
                     else if(booking_choice==3)
                     {
@@ -381,7 +434,12 @@ public class Assignment1
             {
                 System.out.print("Enter Hospital Id: ");
                 int idds=sc.nextInt();
-                hospitalbyid.get(idds).display_slots();
+                if(hospitalArrayList.contains(idds)) {
+                    hospitalbyid.get(idds).display_slots();
+                }
+                else {
+                    System.out.println("Invalid Id input");
+                }
             }
             else if(choice==7)
             {
