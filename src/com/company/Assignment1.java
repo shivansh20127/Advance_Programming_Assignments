@@ -41,7 +41,7 @@ class Slot
         System.out.print("Slot added by Hospital "+ID);
         System.out.print(" for Day: "+slot.day_number);
         System.out.print(" , Available Quantity: "+quantity);
-        System.out.print(" of Vaccine"+ this.vaccine_name.name);
+        System.out.print(" of Vaccine "+ this.vaccine_name.name);
         System.out.println();
     }
 }
@@ -436,7 +436,7 @@ public class Assignment1
                                     System.out.println("No slots available");
                                     continue;
                                 }
-                                System.out.println("Enter hospital id: ");
+                                System.out.print("Enter hospital id: ");
                                 int book_ho_id=sc.nextInt();
                                 if(available_hospital.contains(book_ho_id))
                                 {
@@ -547,6 +547,7 @@ public class Assignment1
             }
             else if(choice==7)
             {
+                System.out.print("Enter Patient ID: ");
                 String curr_id=sc.next();
                 Citizen temp=list_of_citizen.get(curr_id);
                 System.out.println(temp.status);
@@ -558,10 +559,6 @@ public class Assignment1
                         continue;
                     else
                         System.out.println("Next Dose due date: " + temp.nextduedate);
-                }
-                else
-                {
-                    System.out.println("You are just registered and haven't booked any slot");
                 }
             }
             else if(choice==8)
