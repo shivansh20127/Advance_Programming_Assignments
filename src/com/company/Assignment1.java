@@ -101,6 +101,18 @@ class Hospital
         }
         return false;
     }
+    ArrayList<Pair> find_slot_vs_index(String input) {
+        ArrayList<Pair> day_which_he_can_book=new ArrayList<>();
+        for(int j=0;j<slots.size();j++)
+        {
+            if(slots.get(j).vaccine_name.name.equals(input))
+            {
+                Pair p=new Pair(j,slots.get(j).day_number);
+                day_which_he_can_book.add(p);
+            }
+        }
+        return day_which_he_can_book;
+    }
     ArrayList<Pair> display_slot_by_vaccine_name(String input) {
         ArrayList<Pair> day_which_he_can_book=new ArrayList<>();
         for(int j=0;j<slots.size();j++)
@@ -430,7 +442,7 @@ public class Assignment1
                                 if(available_hospital.contains(book_ho_id))
                                 {
                                     Hospital hos_chosen=hospitalbyid.get(book_ho_id);
-                                    ArrayList<Pair> ind_to_day=hos_chosen.display_slot_by_vaccine_name(vaccine_chosen);
+                                    ArrayList<Pair> ind_to_day=hos_chosen.find_slot_vs_index(vaccine_chosen);
                                     int max_day=ind_to_day.get(0).getss();
                                     for(Pair p : ind_to_day)
                                     {
@@ -442,6 +454,7 @@ public class Assignment1
                                         System.out.println("No slots available");
                                         continue;
                                     }
+                                    ind_to_day=hos_chosen.display_slot_by_vaccine_name(vaccine_chosen);
                                     System.out.print("Choose Slot: ");
                                     int booking_slot=sc.nextInt();
                                     int day_he_choose=-1;
@@ -539,7 +552,7 @@ public class Assignment1
                 System.out.print("Enter Patient ID: ");
                 String curr_id=sc.next();
                 Citizen temp=list_of_citizen.get(curr_id);
-                System.out.println(temp.status);
+                System.out.println("Citizen"+" "+temp.status);
                 if(temp.status.equals("REGISTERED")==false)
                 {
                     System.out.println("Vaccine Given: " + temp.vax_status.name);
