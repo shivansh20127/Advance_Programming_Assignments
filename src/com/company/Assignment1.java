@@ -565,9 +565,12 @@ public class Assignment1
             }
             else if(choice==8)
             {
-                System.out.println("Stay home,stay safe!");
-                System.out.println("{End of Test Case}");
+                System.out.println("Stay home,stay safe!\n{End of Test Case}");
+                System.out.println("---------------------------------");
                 System.exit(0);
+            }
+            else {
+                System.out.println("Invalid Choice.Try Again with a valid option");
             }
         }
     }
