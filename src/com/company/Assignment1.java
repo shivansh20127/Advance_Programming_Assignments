@@ -162,6 +162,9 @@ class Citizen
     private String status;
     private int nextduedate;
     private Vaccine vax_status;
+    String getName() {
+        return this.name;
+    }
     int getDose_count() {
         return this.dose_count;
     }
@@ -419,6 +422,7 @@ public class Assignment1
                                         curr_cit.set_vax_status(booked_slot.getVaccine_name());
                                         int day_to_update = day_he_choose + booked_slot.getVaccine_name().gap;
                                         curr_cit.update_newdate(day_to_update);
+                                        System.out.println(curr_cit.getName()+" vaccinated with "+booked_slot.getVaccine_name());
                                     }
                                     else if(curr_cit.getStatus().equals("PARTIALLY VACCINATED"))
                                     {
@@ -429,6 +433,7 @@ public class Assignment1
                                             curr_cit.set_vax_status(booked_slot.getVaccine_name());
                                             int day_to_update = day_he_choose + booked_slot.getVaccine_name().gap;
                                             curr_cit.update_newdate(day_to_update);
+                                            System.out.println(curr_cit.getName()+" vaccinated with "+booked_slot.getVaccine_name());
                                         }
                                         else
                                         {
@@ -524,6 +529,7 @@ public class Assignment1
                                             curr_cit.set_vax_status(booked_slot.getVaccine_name());
                                             int day_to_update = day_he_choose + booked_slot.getVaccine_name().gap;
                                             curr_cit.update_newdate(day_to_update);
+                                            System.out.println(curr_cit.getName()+" vaccinated with "+booked_slot.getVaccine_name());
                                         }
                                         else if(curr_cit.getStatus().equals("PARTIALLY VACCINATED"))
                                         {
@@ -534,6 +540,7 @@ public class Assignment1
                                                 curr_cit.set_vax_status(booked_slot.getVaccine_name());
                                                 int day_to_update = day_he_choose + booked_slot.getVaccine_name().gap;
                                                 curr_cit.update_newdate(day_to_update);
+                                                System.out.println(curr_cit.getName()+" vaccinated with "+booked_slot.getVaccine_name());
                                             }
                                             else
                                             {
