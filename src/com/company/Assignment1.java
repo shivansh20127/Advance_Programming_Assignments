@@ -4,49 +4,50 @@ import java.util.HashMap;
 import java.util.Scanner;
 class Pair
 {
-    private int f;
-    private int s;
-    public Pair(int x,int y)
+    //Implemented pair class to store two numbers as a pair
+    private int f;          //denotes the first element in a pair
+    private int s;          //denoted the second element in a pair
+    public Pair(int x,int y)        //constructor
     {
         this.f=x;
         this.s=y;
     }
-    void setff(int x) {
+    void setff(int x) {			//setter for first element
         this.f=x;
     }
-    void setss(int y) {
+    void setss(int y) {			//setter for second element
         this.s=y;
     }
-    int getff() {
+    int getff() {				//getter for first element
         return this.f;
     }
-    int getss() {
+    int getss() {				//getter for second element
         return this.s;
     }
 }
-class Slot
+class Slot			//class for slot
 {
-    private int day_number;
-    private int quantity;
-    private Vaccine vaccine_name;
-    int getday_number() {
+    private int day_number;		//denotes the day number
+    private int quantity;		//denotes the quantity of the vaccine slot
+    private Vaccine vaccine_name;	//denotes the object of vaccine class
+    int getday_number() {			//getter for day number
         return this.day_number;
     }
-    int getQuantity() {
+    int getQuantity() {				//getter for quantity
         return this.quantity;
     }
-    void setQuantity(int x) {
+    void setQuantity(int x) {		//setter for quantity
         this.quantity=x;
     }
-    Vaccine getVaccine_name() {
+    Vaccine getVaccine_name() {		//getter for vaccine name
         return this.vaccine_name;
     }
-    public Slot(int x,int y,Vaccine vax) {
+    public Slot(int x,int y,Vaccine vax) {	//constructor
         this.day_number=x;
         this.quantity=y;
         this.vaccine_name=vax;
     }
-    void print_details(Slot slot,int ID) {
+    void print_details(Slot slot,int ID) {		//printing details of a slot
         System.out.print("Slot added by Hospital "+ID);
         System.out.print(" for Day: "+slot.day_number);
         System.out.print(" , Available Quantity: "+quantity);
@@ -54,40 +55,40 @@ class Slot
         System.out.println();
     }
 }
-class Hospital
+class Hospital								//class for hospital
 {
-    private String name;
-    private int pincode;
-    private int id;
-    private ArrayList<Slot> slots=new ArrayList<>();
-    String getname() {
+    private String name;					//denotes the name of the hospital
+    private int pincode;					//denotes the pincode of the hospital
+    private int id;							//denotes the Unique id of the hospital
+    private ArrayList<Slot> slots=new ArrayList<>(); 	//denotes the arraylist of slots
+    String getname() {						//getter for name
         return this.name;
     }
-    int getpincode() {
+    int getpincode() {						//getter for pincode
         return this.pincode;
     }
-    int getId() {
+    int getId() {							//getter for id
         return this.id;
     }
-    ArrayList<Slot> getSlots() {
+    ArrayList<Slot> getSlots() {			//getter for slots
         return this.slots;
     }
-    public Hospital(String name,int pincode,int ID)
+    public Hospital(String name,int pincode,int ID)		//constructor
     {
         this.name=name;
         this.pincode=pincode;
         this.id=ID;
     }
-    void display_details() {
+    void display_details() {				//displaying details of a hospital
         System.out.print("Hospital Name: "+this.name);
         System.out.print(" , PinCode: "+this.pincode);
         System.out.print(" , Unique ID: "+this.id);
         System.out.println();
     }
-    void addSlot(Slot slot) {
+    void addSlot(Slot slot) {				//adding slot to the hospital
         slots.add(slot);
     }
-    void display_slots() {
+    void display_slots() {					//displaying slots of a hospital
         if(this.slots.size()==0)
         {
             System.out.println("No slots available");
@@ -101,7 +102,7 @@ class Hospital
             System.out.println();
         }
     }
-    ArrayList<Integer> display_slots_for_booking() {
+    ArrayList<Integer> display_slots_for_booking() {		//displaying slots of a hospital for booking
         ArrayList<Integer> day_which_he_can_book=new ArrayList<>();
         for(int j=0;j<slots.size();j++)
         {
@@ -113,10 +114,12 @@ class Hospital
         }
         return day_which_he_can_book;
     }
-    Slot change_slot(int pos) {
+    Slot change_slot(int pos) {				//changing slot of a hospital after it is booked
         slots.get(pos).setQuantity(slots.get(pos).getQuantity()-1);
         return slots.get(pos);
     }
+
+    //checking if a vaccine of that name is available in a hospital
     boolean check_vaccine_slot(String required) {
         for(Slot s: slots)
         {
@@ -124,6 +127,8 @@ class Hospital
         }
         return false;
     }
+
+    //collecting all pair of index and dat of vaccine of that name is available in a hospital
     ArrayList<Pair> find_slot_vs_index(String input) {
         ArrayList<Pair> day_which_he_can_book=new ArrayList<>();
         for(int j=0;j<slots.size();j++)
@@ -136,6 +141,8 @@ class Hospital
         }
         return day_which_he_can_book;
     }
+
+    //display all slots of a hospital which are available for booking and with a given vaccine name
     ArrayList<Pair> display_slot_by_vaccine_name(String input) {
         ArrayList<Pair> day_which_he_can_book=new ArrayList<>();
         for(int j=0;j<slots.size();j++)
@@ -153,31 +160,31 @@ class Hospital
         return day_which_he_can_book;
     }
 }
-class Citizen
+class Citizen 							//class for citizen
 {
-    private String name;
-    private int age;
-    private String UID;
-    private int dose_count;
-    private String status;
-    private int nextduedate;
-    private Vaccine vax_status;
-    String getName() {
+    private String name;				//denotes the name of the citizen
+    private int age;					//denotes the age of the citizen
+    private String UID;					//denotes the Unique id of the citizen
+    private int dose_count;				//denotes the number of doses taken by the citizen
+    private String status;				//denotes the vaccination status of the citizen
+    private int nextduedate;			//denotes the next due date of the citizen
+    private Vaccine vax_status;			//denotes the vaccine details of the citizen
+    String getName() {					//getter for name
         return this.name;
     }
-    int getDose_count() {
+    int getDose_count() {				//getter for dose_count
         return this.dose_count;
     }
-    String getStatus() {
+    String getStatus() {				//getter for status
         return this.status;
     }
-    int getNextduedate() {
+    int getNextduedate() {				//getter for nextduedate
         return this.nextduedate;
     }
-    Vaccine getVax_status() {
+    Vaccine getVax_status() {			//getter for vax_status
         return this.vax_status;
     }
-    public Citizen(String name,int age,String uid)
+    public Citizen(String name,int age,String uid)		//constructor
     {
         this.name=name;
         this.age=age;
@@ -187,41 +194,41 @@ class Citizen
         this.nextduedate=1;
         vax_status=null;
     }
-    void update_newdate(int date)
+    void update_newdate(int date) 		//updating the next due date of the citizen
     {
         this.nextduedate=date;
     }
-    void display_details() {
+    void display_details() {			//displaying details of a citizen
         System.out.print("Citizen Name: "+this.name);
         System.out.print(" , Age: "+this.age);
         System.out.print(" , Unique ID: "+this.UID);
         System.out.println();
     }
-    void update_dose_count()
+    void update_dose_count()			//updating the dose count of the citizen
     {
         this.dose_count+=1;
     }
-    void set_status(Vaccine curr) {
+    void set_status(Vaccine curr) {		//updating the vaccination status of the citizen
         if(curr.number_of_doses==this.dose_count) { status="FULLY VACCINATED"; }
         else { status = "PARTIALLY VACCINATED"; }
     }
-    void set_vax_status(Vaccine vax)
+    void set_vax_status(Vaccine vax)	//setter for Vaccine details
     {
         this.vax_status=vax;
     }
 }
-class Vaccine
+class Vaccine							//class for vaccine
 {
-    String name;
-    int number_of_doses;
-    int gap;
-    public Vaccine(String name,int number_of_doses,int gap)
+    String name;						//denotes the name of the vaccine
+    int number_of_doses;				//denotes the number of doses of the vaccine
+    int gap;							//denotes the gap between doses of the vaccine
+    public Vaccine(String name,int number_of_doses,int gap)		//constructor
     {
         this.name=name;
         this.number_of_doses=number_of_doses;
         this.gap=gap;
     }
-    void display_details() {
+    void display_details() {			//displaying details of a vaccine
         System.out.print("Vaccine Name: "+this.name);
         System.out.print(" , Number of Doses: "+this.number_of_doses);
         System.out.print(" , Gap Between Doses: "+this.gap);
