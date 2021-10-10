@@ -407,6 +407,11 @@ public class Assignment1
                         Citizen curr_cit=list_of_citizen.get(cust_booking_id);
                         int next_day=curr_cit.getNextduedate();
                         ArrayList<Pair> dwhcb=temp.display_slots_for_booking(next_day);
+                        if(dwhcb.size()==0)
+                        {
+                            System.out.println("No Slots Available");
+                            continue;
+                        }
                         int max_day=dwhcb.get(0).getss();
                         for(Pair x:dwhcb)
                         {
@@ -511,6 +516,11 @@ public class Assignment1
                                     Hospital hos_chosen=hospitalbyid.get(book_ho_id);
                                     int next_day=temp.getNextduedate();
                                     ArrayList<Pair> ind_to_day=hos_chosen.find_slot_vs_index(vaccine_chosen,next_day);
+                                    if(ind_to_day.size()==0)
+                                    {
+                                        System.out.println("No Slots available");
+                                        continue;
+                                    }
                                     int max_day=ind_to_day.get(0).getss();
                                     for(Pair p : ind_to_day)
                                     {
