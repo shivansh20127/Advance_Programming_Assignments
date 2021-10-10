@@ -56,10 +56,22 @@ class Slot
 }
 class Hospital
 {
-    String name;
-    int pincode;
-    int id;
-    ArrayList<Slot> slots=new ArrayList<>();
+    private String name;
+    private int pincode;
+    private int id;
+    private ArrayList<Slot> slots=new ArrayList<>();
+    String getname() {
+        return this.name;
+    }
+    int getpincode() {
+        return this.pincode;
+    }
+    int getId() {
+        return this.id;
+    }
+    ArrayList<Slot> getSlots() {
+        return this.slots;
+    }
     public Hospital(String name,int pincode,int ID)
     {
         this.name=name;
@@ -147,10 +159,22 @@ class Citizen
     private String name;
     private int age;
     private String UID;
-    int dose_count;
-    String status;
-    int nextduedate;
-    Vaccine vax_status;
+    private int dose_count;
+    private String status;
+    private int nextduedate;
+    private Vaccine vax_status;
+    int getDose_count() {
+        return this.dose_count;
+    }
+    String getStatus() {
+        return this.status;
+    }
+    int getNextduedate() {
+        return this.nextduedate;
+    }
+    Vaccine getVax_status() {
+        return this.vax_status;
+    }
     public Citizen(String name,int age,String uid)
     {
         this.name=name;
@@ -328,7 +352,7 @@ public class Assignment1
                 String cust_booking_id=sc.next();
                 if(list_of_citizen.containsKey(cust_booking_id))
                 {
-                    if(list_of_citizen.get(cust_booking_id).status.equals("FULLY VACCINATED"))
+                    if(list_of_citizen.get(cust_booking_id).getStatus().equals("FULLY VACCINATED"))
                     {
                         System.out.println("You are Fully Vaccinated");
                         continue;
@@ -344,9 +368,9 @@ public class Assignment1
                         for(int loop=0;loop<hospitalArrayList.size();loop++)
                         {
                             Hospital temp=hospitalArrayList.get(loop);
-                            if(temp.pincode==booking_pincode)
+                            if(temp.getpincode()==booking_pincode)
                             {
-                                System.out.println(temp.id+" "+temp.name);
+                                System.out.println(temp.getId()+" "+temp.getname());
                                 find=true;
                             }
                         }
@@ -358,7 +382,7 @@ public class Assignment1
                         System.out.print("Enter hospital id: ");
                         int booking_hid=sc.nextInt();
                         Hospital temp=hospitalbyid.get(booking_hid);
-                        if(temp.slots.size()==0)
+                        if(temp.getSlots().size()==0)
                         {
                             System.out.println("No slots available");
                             continue;
@@ -370,7 +394,7 @@ public class Assignment1
                             max_day=Math.max(x,max_day);
                         }
                         Citizen curr_cit=list_of_citizen.get(cust_booking_id);
-                        if(curr_cit.nextduedate > max_day)
+                        if(curr_cit.getNextduedate() > max_day)
                         {
                             System.out.println("No slots available");
                             continue;
@@ -378,18 +402,18 @@ public class Assignment1
                         System.out.print("Choose Slot: ");
                         int booking_slot=sc.nextInt();
                         int day_he_choose=dwhcb.get(booking_slot);
-                        if(day_he_choose>= curr_cit.nextduedate)
+                        if(day_he_choose>= curr_cit.getNextduedate())
                         {
                             if (booking_slot < dwhcb.size())
                             {
-                                if(temp.slots.get(booking_slot).getQuantity()==0)
+                                if(temp.getSlots().get(booking_slot).getQuantity()==0)
                                 {
                                     System.out.println("No slots available");
                                 }
                                 else
                                 {
                                     Slot booked_slot=temp.change_slot(booking_slot);
-                                    if(curr_cit.status.equals("REGISTERED"))
+                                    if(curr_cit.getStatus().equals("REGISTERED"))
                                     {
                                         curr_cit.update_dose_count();
                                         curr_cit.set_status(booked_slot.getVaccine_name());
@@ -397,9 +421,9 @@ public class Assignment1
                                         int day_to_update = day_he_choose + booked_slot.getVaccine_name().gap;
                                         curr_cit.update_newdate(day_to_update);
                                     }
-                                    else if(curr_cit.status.equals("PARTIALLY VACCINATED"))
+                                    else if(curr_cit.getStatus().equals("PARTIALLY VACCINATED"))
                                     {
-                                        if(booked_slot.getVaccine_name().name.equals(curr_cit.vax_status.name))
+                                        if(booked_slot.getVaccine_name().name.equals(curr_cit.getVax_status().name))
                                         {
                                             curr_cit.update_dose_count();
                                             curr_cit.set_status(booked_slot.getVaccine_name());
@@ -431,7 +455,7 @@ public class Assignment1
                         if(vaccines.contains(vaccine_chosen))
                         {
                             Citizen temp=list_of_citizen.get(cust_booking_id);
-                            if(temp.vax_status==null || temp.vax_status.name.equals(vaccine_chosen))
+                            if(temp.getVax_status()==null || temp.getVax_status().name.equals(vaccine_chosen))
                             {
                                 ArrayList<Integer> available_hospital=new ArrayList<>();
                                 boolean flag=false;
@@ -440,8 +464,8 @@ public class Assignment1
                                     if(it.check_vaccine_slot(vaccine_chosen))
                                     {
                                         flag=true;
-                                        available_hospital.add(it.id);
-                                        System.out.println(it.id+" "+it.name);
+                                        available_hospital.add(it.getId());
+                                        System.out.println(it.getId()+" "+it.getname());
                                     }
                                 }
                                 if(!flag)
@@ -461,7 +485,7 @@ public class Assignment1
                                         max_day=Math.max(p.getss(),max_day);
                                     }
                                     Citizen curr_cit=list_of_citizen.get(cust_booking_id);
-                                    if(curr_cit.nextduedate > max_day)
+                                    if(curr_cit.getNextduedate() > max_day)
                                     {
                                         System.out.println("No slots available");
                                         continue;
@@ -482,19 +506,19 @@ public class Assignment1
                                         System.out.println("Invalid Option");
                                         continue;
                                     }
-                                    if(curr_cit.nextduedate > day_he_choose)
+                                    if(curr_cit.getNextduedate() > day_he_choose)
                                     {
                                         System.out.println("No slots available");
                                         continue;
                                     }
-                                    if(hos_chosen.slots.get(booking_slot).getQuantity()==0)
+                                    if(hos_chosen.getSlots().get(booking_slot).getQuantity()==0)
                                     {
                                         System.out.println("No slots available");
                                     }
                                     else
                                     {
                                         Slot booked_slot=hos_chosen.change_slot(booking_slot);
-                                        if(curr_cit.status.equals("REGISTERED"))
+                                        if(curr_cit.getStatus().equals("REGISTERED"))
                                         {
                                             curr_cit.update_dose_count();
                                             curr_cit.set_status(booked_slot.getVaccine_name());
@@ -502,9 +526,9 @@ public class Assignment1
                                             int day_to_update = day_he_choose + booked_slot.getVaccine_name().gap;
                                             curr_cit.update_newdate(day_to_update);
                                         }
-                                        else if(curr_cit.status.equals("PARTIALLY VACCINATED"))
+                                        else if(curr_cit.getStatus().equals("PARTIALLY VACCINATED"))
                                         {
-                                            if(booked_slot.getVaccine_name().name.equals(curr_cit.vax_status.name))
+                                            if(booked_slot.getVaccine_name().name.equals(curr_cit.getVax_status().name))
                                             {
                                                 curr_cit.update_dose_count();
                                                 curr_cit.set_status(booked_slot.getVaccine_name());
@@ -564,15 +588,15 @@ public class Assignment1
                 System.out.print("Enter Patient ID: ");
                 String curr_id=sc.next();
                 Citizen temp=list_of_citizen.get(curr_id);
-                System.out.println("Citizen"+" "+temp.status);
-                if(temp.status.equals("REGISTERED")==false)
+                System.out.println("Citizen"+" "+temp.getStatus());
+                if(temp.getStatus().equals("REGISTERED")==false)
                 {
-                    System.out.println("Vaccine Given: " + temp.vax_status.name);
-                    System.out.println("Number of Doses given: " + temp.dose_count);
-                    if ((temp.status).equals("FULLY VACCINATED"))
+                    System.out.println("Vaccine Given: " + temp.getVax_status().name);
+                    System.out.println("Number of Doses given: " + temp.getDose_count());
+                    if ((temp.getStatus()).equals("FULLY VACCINATED"))
                         continue;
                     else
-                        System.out.println("Next Dose due date: " + temp.nextduedate);
+                        System.out.println("Next Dose due date: " + temp.getNextduedate());
                 }
             }
             else if(choice==8)
