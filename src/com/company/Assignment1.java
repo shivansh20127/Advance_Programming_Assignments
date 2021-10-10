@@ -84,8 +84,7 @@ class Hospital
         System.out.print(" , Unique ID: "+this.id);
         System.out.println();
     }
-    void addSlot(Slot slot)
-    {
+    void addSlot(Slot slot) {
         slots.add(slot);
     }
     void display_slots() {
