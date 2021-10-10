@@ -102,15 +102,18 @@ class Hospital								//class for hospital
             System.out.println();
         }
     }
-    ArrayList<Integer> display_slots_for_booking() {		//displaying slots of a hospital for booking
-        ArrayList<Integer> day_which_he_can_book=new ArrayList<>();
+    ArrayList<Pair> display_slots_for_booking(int day) {		//displaying slots of a hospital for booking
+        ArrayList<Pair> day_which_he_can_book=new ArrayList<>();
         for(int j=0;j<slots.size();j++)
         {
-            System.out.print(j + " -> Day: " + slots.get(j).getday_number());
-            System.out.print(" Available Qty: " + slots.get(j).getQuantity());
-            System.out.print(" Vaccine: " + slots.get(j).getVaccine_name().name);
-            System.out.println();
-            day_which_he_can_book.add(slots.get(j).getday_number());
+            if(slots.get(j).getday_number()>=day) {
+                System.out.print(j + " -> Day: " + slots.get(j).getday_number());
+                System.out.print(" Available Qty: " + slots.get(j).getQuantity());
+                System.out.print(" Vaccine: " + slots.get(j).getVaccine_name().name);
+                System.out.println();
+                Pair p=new Pair(j,slots.get(j).getday_number());
+                day_which_he_can_book.add(p);
+            }
         }
         return day_which_he_can_book;
     }
@@ -129,11 +132,11 @@ class Hospital								//class for hospital
     }
 
     //collecting all pair of index and dat of vaccine of that name is available in a hospital
-    ArrayList<Pair> find_slot_vs_index(String input) {
+    ArrayList<Pair> find_slot_vs_index(String input,int day) {
         ArrayList<Pair> day_which_he_can_book=new ArrayList<>();
         for(int j=0;j<slots.size();j++)
         {
-            if(slots.get(j).getVaccine_name().name.equals(input))
+            if(slots.get(j).getVaccine_name().name.equals(input) && slots.get(j).getday_number()>=day)
             {
                 Pair p=new Pair(j,slots.get(j).getday_number());
                 day_which_he_can_book.add(p);
@@ -143,11 +146,11 @@ class Hospital								//class for hospital
     }
 
     //display all slots of a hospital which are available for booking and with a given vaccine name
-    ArrayList<Pair> display_slot_by_vaccine_name(String input) {
+    ArrayList<Pair> display_slot_by_vaccine_name(String input,int day) {
         ArrayList<Pair> day_which_he_can_book=new ArrayList<>();
         for(int j=0;j<slots.size();j++)
         {
-            if(slots.get(j).getVaccine_name().name.equals(input))
+            if(slots.get(j).getVaccine_name().name.equals(input) && slots.get(j).getday_number()>=day)
             {
                 System.out.print(j + " -> Day: " + slots.get(j).getday_number());
                 System.out.print(" Available Qty: " + slots.get(j).getQuantity());
@@ -390,19 +393,25 @@ public class Assignment1
                         }
                         System.out.print("Enter hospital id: ");
                         int booking_hid=sc.nextInt();
+                        if(hospitalbyid.containsKey(booking_hid)==false)
+                        {
+                            System.out.println("Invalid Hospital ID.");
+                            continue;
+                        }
                         Hospital temp=hospitalbyid.get(booking_hid);
                         if(temp.getSlots().size()==0)
                         {
                             System.out.println("No slots available");
                             continue;
                         }
-                        ArrayList<Integer> dwhcb=temp.display_slots_for_booking();
-                        int max_day=dwhcb.get(0);
-                        for(Integer x:dwhcb)
-                        {
-                            max_day=Math.max(x,max_day);
-                        }
                         Citizen curr_cit=list_of_citizen.get(cust_booking_id);
+                        int next_day=curr_cit.getNextduedate();
+                        ArrayList<Pair> dwhcb=temp.display_slots_for_booking(next_day);
+                        int max_day=dwhcb.get(0).getss();
+                        for(Pair x:dwhcb)
+                        {
+                            max_day=Math.max(x.getss(),max_day);
+                        }
                         if(curr_cit.getNextduedate() > max_day)
                         {
                             System.out.println("No slots available");
@@ -410,7 +419,18 @@ public class Assignment1
                         }
                         System.out.print("Choose Slot: ");
                         int booking_slot=sc.nextInt();
-                        int day_he_choose=dwhcb.get(booking_slot);
+                        int day_he_choose=-1;
+                        for(Pair x:dwhcb)
+                        {
+                            if(booking_slot==x.getff())
+                            {
+                                day_he_choose=x.getss();
+                            }
+                        }
+                        if(day_he_choose==-1) {
+                            System.out.println("Invalid Input");
+                            continue;
+                        }
                         if(day_he_choose>= curr_cit.getNextduedate())
                         {
                             if (booking_slot < dwhcb.size())
@@ -489,7 +509,8 @@ public class Assignment1
                                 if(available_hospital.contains(book_ho_id))
                                 {
                                     Hospital hos_chosen=hospitalbyid.get(book_ho_id);
-                                    ArrayList<Pair> ind_to_day=hos_chosen.find_slot_vs_index(vaccine_chosen);
+                                    int next_day=temp.getNextduedate();
+                                    ArrayList<Pair> ind_to_day=hos_chosen.find_slot_vs_index(vaccine_chosen,next_day);
                                     int max_day=ind_to_day.get(0).getss();
                                     for(Pair p : ind_to_day)
                                     {
@@ -501,7 +522,7 @@ public class Assignment1
                                         System.out.println("No slots available");
                                         continue;
                                     }
-                                    ind_to_day=hos_chosen.display_slot_by_vaccine_name(vaccine_chosen);
+                                    ind_to_day=hos_chosen.display_slot_by_vaccine_name(vaccine_chosen,next_day);
                                     System.out.print("Choose Slot: ");
                                     int booking_slot=sc.nextInt();
                                     int day_he_choose=-1;
