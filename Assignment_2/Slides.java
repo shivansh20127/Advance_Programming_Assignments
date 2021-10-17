@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 import java.util.*;
-public class Slides implements Lecture
+public class Slides implements ClassMaterial
 {
 	private ArrayList<String> slides=new ArrayList<>();
 	private final String topic;
 	private final int number;
-	private final Date upload;
+	private final Date uploaddate;
 	private final String uploaded_by;
 	private final Scanner sc = Assignment2.sc;
 	public Slides(String id)
@@ -21,7 +21,7 @@ public class Slides implements Lecture
 			String sl=sc.nextLine();
 			slides.add(sl);
 		}
-		this.upload=new Date();
+		this.uploaddate=new Date();
 		this.uploaded_by=id;
 	}
 	@Override
@@ -33,7 +33,7 @@ public class Slides implements Lecture
 			System.out.println("Slide "+(i+1)+": "+slides.get(i));
 		}
 		System.out.println("Number of slides: "+this.number);
-		System.out.println("Date of upload: "+this.upload);
+		System.out.println("Date of upload: "+this.uploaddate);
 		System.out.println("Uploaded by: "+this.uploaded_by);
 	}
 }
