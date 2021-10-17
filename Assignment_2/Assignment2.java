@@ -5,6 +5,12 @@ public class Assignment2
 	public static void main(String[] args) 
 	{
 		Backpack course = new Backpack();
+
+		course.addInstructor(new Instructor("I0",0));
+		course.addInstructor(new Instructor("I1",1));
+		course.addStudent(new Student("S0",0));
+		course.addStudent(new Student("S1",1));
+		course.addStudent(new Student("S2",2));
 		while(true)
 		{
 			System.out.println("Welcome to Backpack");

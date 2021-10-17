@@ -1,16 +1,31 @@
 import java.util.*;
 class Backpack 
 {
-	private final Vector<Instructor> instructors;
-    private final Vector<Student> students;
+	private final ArrayList<Instructor> instructors;
+    private final ArrayList<Student> students;
+	private final Scanner sc = Assignment2.sc;
 	Backpack()
 	{
-		instructors= new Vector<Instructor>();
-		students = new Vector<Student>();
+		instructors= new ArrayList<Instructor>();
+		students = new ArrayList<Student>();
+	}
+	public void addInstructor(Instructor instructor)
+	{
+		instructors.add(instructor);
+	}
+	public void addStudent(Student student)
+	{
+		students.add(student);
 	}
 	public void enterasInstructor()
 	{
 		System.out.println("Instructors:");
+		for(Instructor x:instructors)
+		{
+			System.out.println(x.getId()+" - "+x.getName());
+		}
+		int op=sc.nextInt();
+		instructors.get(op-1).enter();
 	}
 	public void assigndt()
 	{
