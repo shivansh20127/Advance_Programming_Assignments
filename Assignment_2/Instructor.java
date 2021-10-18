@@ -44,6 +44,10 @@ class Instructor extends Data implements user
         back_obj.getList_of_assessments().get(decided).gradesub(this);
     }
     @Override
+    public void viewassessments() {
+        back_obj.viewallassessments();
+    }
+    @Override
     public void viewLecture()
     {
         back_obj.printMaterial();
@@ -91,7 +95,7 @@ class Instructor extends Data implements user
                 viewLecture();
             }
             if(op==4) {
-                back_obj.viewallassessments();
+                viewassessments();
             }
             if(op==5) {
                 gradeassessments();

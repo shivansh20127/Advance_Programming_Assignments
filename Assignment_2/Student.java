@@ -28,7 +28,8 @@ class Student extends Data implements user
     {
         obj.printComments();
     }
-    public void viewassessment() {
+    @Override
+    public void viewassessments() {
         ArrayList<assessment> tester=obj.getList_of_assessments();
         int count=0;
         for(assessment x : tester)
@@ -100,7 +101,7 @@ class Student extends Data implements user
                 viewLecture();
             }
             if(op==2) {
-                viewassessment();
+                viewassessments();
             }
             if(op==3) {
                 submitassessment();
