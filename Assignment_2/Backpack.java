@@ -6,12 +6,14 @@ class Backpack
     private ArrayList<Student> students;
     private ArrayList<ClassMaterial> material;
     private ArrayList<Comments> list_of_comments;
+    private ArrayList<assessment> list_of_assessments;
     public Backpack()
     {
         instructors= new ArrayList<Instructor>();
         students = new ArrayList<Student>();
         material = new ArrayList<ClassMaterial>();
         list_of_comments = new ArrayList<Comments>();
+        list_of_assessments=new ArrayList<>();
     }
     public void addInstructor()
     {
@@ -53,11 +55,23 @@ class Backpack
         System.out.print("Choose id: ");
         int op=sc.nextInt();
         students.get(op).enter();
-
     }
     ArrayList<ClassMaterial> getMaterial()
     {
         return material;
+    }
+    ArrayList<assessment> getList_of_assessments() { return list_of_assessments; }
+    public void viewassessments()
+    {
+        int count=0;
+        for(assessment x : list_of_assessments)
+        {
+            if(x.getstatus()==true) {
+                x.view(count);
+                System.out.println("----------------");
+            }
+            count++;
+        }
     }
     public void printMaterial()
     {

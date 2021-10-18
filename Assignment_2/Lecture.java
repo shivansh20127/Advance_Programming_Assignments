@@ -23,6 +23,8 @@ public class Lecture implements ClassMaterial
         String filename=sc.nextLine();
         while(!filename.endsWith(".mp4"))
         {
+            System.out.println("You entered a file which was not having .mp4 extension");
+            System.out.println("Please enter again");
             System.out.print("Enter filename of video: ");
             filename=sc.nextLine();
         }

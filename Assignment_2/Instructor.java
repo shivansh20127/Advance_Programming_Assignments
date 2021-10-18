@@ -3,11 +3,11 @@ package com.company;
 import java.util.Scanner;
 class Instructor extends Data implements user
 {
-    private final Backpack obj;
+    private final Backpack back_obj;
     Instructor(String name,int id,Backpack obj)
     {
         super(name,id);
-        this.obj=obj;
+        this.back_obj=obj;
     }
     public void addclassmaterial()
     {
@@ -17,32 +17,39 @@ class Instructor extends Data implements user
         if(x==1)
         {
             ClassMaterial lectureSlide = new Slides(this);
-            obj.getMaterial().add(lectureSlide);
+            back_obj.getMaterial().add(lectureSlide);
         }
         if(x==2)
         {
             ClassMaterial lectureVideo = new Lecture(this);
-            obj.getMaterial().add(lectureVideo);
+            back_obj.getMaterial().add(lectureVideo);
         }
+    }
+    public void addAssignment()
+    {
+        assessment new_ass = new assignment(this);
+        back_obj.getList_of_assessments().add(new_ass);
+    }
+    public void addQuiz()
+    {
+        assessment new_quiz=new quiz(this);
+        back_obj.getList_of_assessments().add(new_quiz);
     }
     @Override
     public void viewLecture()
     {
-        obj.printMaterial();
-    }
-    @Override
-    public void viewAssessment() {
+        back_obj.printMaterial();
     }
     @Override
     public void addComment()
     {
         Comments new_comm=new Comments(this);
-        obj.addComments(new_comm);
+        back_obj.addComments(new_comm);
     }
     @Override
     public void viewComment()
     {
-        obj.printComments();
+        back_obj.printComments();
     }
     public void enter()
     {
@@ -59,9 +66,32 @@ class Instructor extends Data implements user
             {
                 addclassmaterial();
             }
+            if(op==2)
+            {
+                Scanner scan=new Scanner(System.in);
+                System.out.println("1. Add Assignment\n"+"2. Add Quiz");
+                int choice=sc.nextInt();
+                if(choice==1) {
+                    addAssignment();
+                }
+                if(choice==2) {
+                    addQuiz();
+                }
+            }
             if(op==3)
             {
                 viewLecture();
+            }
+            if(op==4) {
+                back_obj.viewassessments();
+            }
+            if(op==6) {
+                System.out.println("List of Open Assignments:");
+                back_obj.viewassessments();
+                Scanner sc_fc=new Scanner(System.in);
+                System.out.print("Enter id of assignment to close: ");
+                int pos_to_close=sc_fc.nextInt();
+                back_obj.getList_of_assessments().get(pos_to_close).close();
             }
             if(op==7)
             {
