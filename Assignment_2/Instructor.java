@@ -35,6 +35,14 @@ class Instructor extends Data implements user
         assessment new_quiz=new quiz(this);
         back_obj.getList_of_assessments().add(new_quiz);
     }
+    public void gradeassessments() {
+        System.out.println("List of assessments");
+        Scanner scan = new Scanner(System.in);
+        back_obj.viewallassessments();
+        System.out.print("Enter ID of assessment to view submissions: ");
+        int decided=scan.nextInt();
+        back_obj.getList_of_assessments().get(decided).gradesub(this);
+    }
     @Override
     public void viewLecture()
     {
@@ -83,11 +91,14 @@ class Instructor extends Data implements user
                 viewLecture();
             }
             if(op==4) {
-                back_obj.viewassessments();
+                back_obj.viewallassessments();
+            }
+            if(op==5) {
+                gradeassessments();
             }
             if(op==6) {
                 System.out.println("List of Open Assignments:");
-                back_obj.viewassessments();
+                back_obj.viewopenassessments();
                 Scanner sc_fc=new Scanner(System.in);
                 System.out.print("Enter id of assignment to close: ");
                 int pos_to_close=sc_fc.nextInt();

@@ -61,7 +61,7 @@ class Backpack
         return material;
     }
     ArrayList<assessment> getList_of_assessments() { return list_of_assessments; }
-    public void viewassessments()
+    public void viewopenassessments()
     {
         int count=0;
         for(assessment x : list_of_assessments)
@@ -73,11 +73,24 @@ class Backpack
             count++;
         }
     }
+    public void viewallassessments()
+    {
+        int count=0;
+        for(assessment x : list_of_assessments)
+        {
+            if(x.getstatus()==true || x.getstatus()==false) {
+                x.view(count);
+                System.out.println("----------------");
+            }
+            count++;
+        }
+    }
     public void printMaterial()
     {
         for(ClassMaterial x:material)
         {
             x.view();
+            System.out.println();
         }
     }
     public void addComments(Comments comment)

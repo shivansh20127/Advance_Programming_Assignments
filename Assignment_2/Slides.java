@@ -20,7 +20,7 @@ public class Slides implements ClassMaterial
         for(int i=0;i<number;i++)
         {
             Scanner scanme=new Scanner(System.in);
-            System.out.print("Content of Slide: "+(i+1));
+            System.out.print("Content of Slide "+(i+1)+": ");
             String sl=scanme.nextLine();
             slides.add(sl);
         }

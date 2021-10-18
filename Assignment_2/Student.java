@@ -5,11 +5,14 @@ class Student extends Data implements user
 {
     private final Backpack obj;
     private HashMap<assessment,submission> atos = new HashMap<>();
-    private HashMap<submission,grade> stog = new HashMap<>();
+    private ArrayList<submission> graded_ones=new ArrayList<>();
     Student(String _name,int _id,Backpack obj)
     {
         super(_name,_id);
         this.obj=obj;
+    }
+    public void addGraded_ones(submission _obj) {
+        this.graded_ones.add(_obj);
     }
     @Override
     public void viewLecture() {
@@ -33,6 +36,7 @@ class Student extends Data implements user
             if(x.getstatus()==true && atos.containsKey(x)==false)
             {
                 x.view(count);
+                System.out.println("----------------");
             }
             count++;
         }
@@ -41,19 +45,22 @@ class Student extends Data implements user
         Scanner scan=new Scanner(System.in);
         System.out.println("Pending assessments");
         ArrayList<assessment> tester= obj.getList_of_assessments();
+        ArrayList<assessment> temp=new ArrayList<>();
         int count=0;
         for(assessment x : tester)
         {
             if(atos.containsKey(x)==false)
             {
                 x.view(count);
+                temp.add(x);
+                count++;
             }
         }
         System.out.print("Enter ID of assessment: ");
         int chosen_to_make=scan.nextInt();
-        submission made= tester.get(chosen_to_make).makesub();
-        atos.put(tester.get(chosen_to_make),made);
-        tester.get(chosen_to_make).getAll_submissions().put(this,made);
+        submission made= temp.get(chosen_to_make).makesub();
+        atos.put(temp.get(chosen_to_make),made);
+        temp.get(chosen_to_make).addSubmission(this,made);
     }
     public void showungraded()
     {
@@ -61,7 +68,7 @@ class Student extends Data implements user
         if(atos.isEmpty()) return;
         for(assessment x : atos.keySet())
         {
-            if(atos.get(x).isIs_graded())
+            if(atos.get(x).isIs_graded()==false)
             {
                 System.out.println("Submissions: "+atos.get(x).getFilename());
             }
@@ -70,12 +77,12 @@ class Student extends Data implements user
     public void showgraded()
     {
         System.out.println("Graded submissions");
-        if(stog.isEmpty()) return;
-        for(submission x : stog.keySet())
+        if(graded_ones.isEmpty()) return;
+        for(submission x : graded_ones)
         {
             System.out.println("Submissions: "+x.getFilename());
-            System.out.println("Marks scored: "+stog.get(x).getGraded_marks());
-            System.out.println("Graded by: "+stog.get(x).getGraded_by().getName());
+            System.out.println("Marks scored: "+x.getGraded_marks());
+            System.out.println("Graded by: "+x.getGraded_by().getName());
         }
     }
     public void enter()
@@ -100,6 +107,7 @@ class Student extends Data implements user
             }
             if(op==4) {
                 showgraded();
+                System.out.println();
                 showungraded();
             }
             if(op==5)
