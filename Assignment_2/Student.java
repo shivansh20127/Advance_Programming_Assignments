@@ -33,9 +33,14 @@ class Student extends Data implements user
         ArrayList<assessment> tester=obj.getList_of_assessments();
         int count=0;
         boolean flag=false;
+        if(tester.size()==0) {
+            System.out.println("No assessments to show.");
+            return;
+        }
+        System.out.println("Open assessments : ");
         for(assessment x : tester)
         {
-            if(x.getstatus()==true && atos.containsKey(x)==false)
+            if(x.getstatus()==true)
             {
                 x.view(count);
                 System.out.println("----------------");
@@ -43,10 +48,20 @@ class Student extends Data implements user
             }
             count++;
         }
-        if(flag==false) {
-            System.out.println("You are all done !. Nothing pending to show.");
-            return;
+        if(flag==false) System.out.println("None");
+        flag=false;
+        System.out.println("Closed assessments : ");
+        for(assessment x : tester)
+        {
+            if(x.getstatus()==false)
+            {
+                x.view(count);
+                System.out.println("----------------");
+                flag=true;
+            }
+            count++;
         }
+        if(flag==false) System.out.println("None");
     }
     public void submitassessment() {
         Scanner scan=new Scanner(System.in);
@@ -57,7 +72,7 @@ class Student extends Data implements user
         System.out.println("Pending assessments");
         for(assessment x : tester)
         {
-            if(atos.containsKey(x)==false)
+            if(atos.containsKey(x)==false && x.getstatus()==true)
             {
                 x.view(count);
                 temp.add(x);
