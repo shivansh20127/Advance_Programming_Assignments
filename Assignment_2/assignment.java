@@ -71,7 +71,7 @@ public class assignment implements assessment
         Scanner scan=new Scanner(System.in);
         System.out.print("Enter filename of assignment: ");
         String filename=scan.nextLine();
-        while(!filename.endsWith(".zip"))
+        while(filename.endsWith(".zip")==false || filename.length()<=4)
         {
             System.out.println("You entered a file which was not having .zip extension");
             System.out.println("Please enter again");

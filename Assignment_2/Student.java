@@ -32,22 +32,29 @@ class Student extends Data implements user
     public void viewassessments() {
         ArrayList<assessment> tester=obj.getList_of_assessments();
         int count=0;
+        boolean flag=false;
         for(assessment x : tester)
         {
             if(x.getstatus()==true && atos.containsKey(x)==false)
             {
                 x.view(count);
                 System.out.println("----------------");
+                flag=true;
             }
             count++;
+        }
+        if(flag==false) {
+            System.out.println("You are all done !. Nothing pending to show.");
+            return;
         }
     }
     public void submitassessment() {
         Scanner scan=new Scanner(System.in);
-        System.out.println("Pending assessments");
         ArrayList<assessment> tester= obj.getList_of_assessments();
         ArrayList<assessment> temp=new ArrayList<>();
         int count=0;
+        boolean flag=false;
+        System.out.println("Pending assessments");
         for(assessment x : tester)
         {
             if(atos.containsKey(x)==false)
@@ -55,7 +62,13 @@ class Student extends Data implements user
                 x.view(count);
                 temp.add(x);
                 count++;
+                flag=true;
             }
+        }
+        if(flag==false)
+        {
+            System.out.println("No pending assessments");
+            return;
         }
         System.out.print("Enter ID of assessment: ");
         int chosen_to_make=scan.nextInt();
@@ -108,7 +121,7 @@ class Student extends Data implements user
             }
             if(op==4) {
                 showgraded();
-                System.out.println();
+                System.out.println("\n----------------\n");
                 showungraded();
             }
             if(op==5)

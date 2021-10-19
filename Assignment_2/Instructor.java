@@ -38,7 +38,8 @@ class Instructor extends Data implements user
     public void gradeassessments() {
         System.out.println("List of assessments");
         Scanner scan = new Scanner(System.in);
-        back_obj.viewallassessments();
+        boolean check=back_obj.viewallassessments();
+        if(check==false) return;
         System.out.print("Enter ID of assessment to view submissions: ");
         int decided=scan.nextInt();
         back_obj.getList_of_assessments().get(decided).gradesub(this);
@@ -102,7 +103,8 @@ class Instructor extends Data implements user
             }
             if(op==6) {
                 System.out.println("List of Open Assignments:");
-                back_obj.viewopenassessments();
+                boolean check=back_obj.viewopenassessments();
+                if(check==false) continue;
                 Scanner sc_fc=new Scanner(System.in);
                 System.out.print("Enter id of assignment to close: ");
                 int pos_to_close=sc_fc.nextInt();

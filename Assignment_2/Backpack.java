@@ -61,32 +61,50 @@ class Backpack
         return material;
     }
     ArrayList<assessment> getList_of_assessments() { return list_of_assessments; }
-    public void viewopenassessments()
+    public boolean viewopenassessments()
     {
+        boolean flag=false;
         int count=0;
         for(assessment x : list_of_assessments)
         {
             if(x.getstatus()==true) {
                 x.view(count);
                 System.out.println("----------------");
+                flag=true;
             }
             count++;
         }
+        if(flag==false) {
+            System.out.println("No open assessments");
+            return false;
+        }
+        return true;
     }
-    public void viewallassessments()
+    public boolean viewallassessments()
     {
+        boolean flag=false;
         int count=0;
         for(assessment x : list_of_assessments)
         {
             if(x.getstatus()==true || x.getstatus()==false) {
                 x.view(count);
                 System.out.println("----------------");
+                flag=true;
             }
             count++;
         }
+        if(flag==false) {
+            System.out.println("No available assessments");
+            return false;
+        }
+        return true;
     }
     public void printMaterial()
     {
+        if(material.size()==0) {
+            System.out.println("No posted class material");
+            return;
+        }
         for(ClassMaterial x:material)
         {
             x.view();
@@ -99,6 +117,10 @@ class Backpack
     }
     public void printComments()
     {
+        if(list_of_comments.size()==0) {
+            System.out.println("No comments to show");
+            return;
+        }
         for(Comments x:list_of_comments)
         {
             x.view();

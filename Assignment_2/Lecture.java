@@ -21,7 +21,7 @@ public class Lecture implements ClassMaterial
     {
         Scanner sc=new Scanner(System.in);
         String filename=sc.nextLine();
-        while(!filename.endsWith(".mp4"))
+        while(filename.endsWith(".mp4")==false || filename.length()<=4)
         {
             System.out.println("You entered a file which was not having .mp4 extension");
             System.out.println("Please enter again");
